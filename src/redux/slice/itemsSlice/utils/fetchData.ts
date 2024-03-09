@@ -3,17 +3,6 @@ import { md5 } from "js-md5";
 import { getDate } from "../../../../utils/getDate";
 
 
-export function getOffset(obj: {
-	offsetNum: number;
-	stateOffset: number;
-}): number {
-	const { offsetNum, stateOffset } = obj;
-	let offset = stateOffset + offsetNum;
-	if (offset < 0) {
-		offset = 0;
-	}
-	return offset;
-}
 
 export async function getItemsId(offset: number, numGetItems: number) {
 	console.log()

@@ -26,6 +26,15 @@ li {
   opacity: 0.4;
 	user-select: none;
 }
+.paginationBlock{
+	align-items: center;
+	display: flex;
+}
+.paginationBlock button{
+	height: 25px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
 .paginationNumbersPages {
 	margin: 10px;
 	display: flex;
@@ -34,6 +43,9 @@ li {
 .pageNumber{
 	cursor: pointer;
 	border: 1px solid green;
-	border-radius: 25px;
+
 	padding: 5px;
+}
+.clicked{
+	background-color: #7fd699;
 }

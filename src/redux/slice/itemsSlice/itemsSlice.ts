@@ -9,7 +9,6 @@ export type Items = {
 	product: string;
 }[];
 
-
 export type StateItems = {
 	status: "uninitialized" | "loading" | "succeeded" | "failed";
 	items: Items;
@@ -25,7 +24,11 @@ const initialState: StateItems = {
 export const itemsSlice = createSlice({
 	name: "items",
 	initialState,
-	reducers: {},
+	reducers: {
+		setOffset: (state, action) => {
+			state.offset = action.payload;
+		},
+	},
 	selectors: {},
 	extraReducers: builder => {
 		builder
@@ -35,12 +38,8 @@ export const itemsSlice = createSlice({
 
 			.addCase(fetchItems.fulfilled, (state, action) => {
 				state.status = "succeeded";
-				const filterState = getUniqueItems([
-					...state.items,
-					...action.payload.responseItems,
-				]);
+				const filterState = getUniqueItems([...state.items, ...action.payload]);
 				state.items = [...filterState];
-				state.offset = action.payload.offset;
 			})
 			.addCase(fetchItems.rejected, (state, action) => {
 				state.status = "failed";
@@ -50,5 +49,5 @@ export const itemsSlice = createSlice({
 	},
 });
 
-
+export const { setOffset } = itemsSlice.actions;
 export default itemsSlice.reducer;
