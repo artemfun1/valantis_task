@@ -21,8 +21,10 @@ li {
 	width: 100px;
 	border: 1px solid black;
 }
-.pagination {
-	display: flex;
+.disabledDiv{
+	pointer-events: none;
+  opacity: 0.4;
+	user-select: none;
 }
 .paginationNumbersPages {
 	margin: 10px;

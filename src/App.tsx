@@ -1,10 +1,11 @@
 import { useEffect, useRef } from "react";
 import "./App.css";
 import { ItemsList } from "./components/itemsList";
-import { useToggleDisableBtn } from "./hooks/useToggleDisableBtn";
+import { useToggleDisable} from "./hooks/useToggleDisable";
 import { fetchItems } from "./redux/slice/itemsSlice/fetchItems";
 import { useAppDispatch, useAppSelector } from "./redux/store/useReduxHooks";
-import { Pagination } from './components/pagination'
+import { PaginationComponents } from './components/pagination'
+import clsx from 'clsx'
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -53,9 +54,10 @@ function App() {
 			)
 		);
 	}
-	const btnPastRef = useRef<HTMLButtonElement>(null);
-	const btnNextRef = useRef<HTMLButtonElement>(null);
-	useToggleDisableBtn({ btnPastRef, btnNextRef });
+
+	const paginationDivRef = useRef<HTMLDivElement>(null);
+	
+	useToggleDisable({paginationDivRef});
 
 	return (
 		<div>
@@ -63,14 +65,15 @@ function App() {
 			<button> Цена </button>
 			<button> Бренд </button> <br />
 			
-			<div className='pagination'>
-				<button ref={btnPastRef} onClick={handleClickMinus}>
+			<div ref={paginationDivRef} className={clsx(result.status === "loading"?'disabledDiv':'')}>
+				<button onClick={handleClickMinus}>
 					Предыдущая страница
 				</button>
-				<Pagination/>
-				<button ref={btnNextRef} onClick={handleClickPlus}>
+				<button onClick={handleClickPlus}>
 					Следующая страница
 				</button>
+				
+				<PaginationComponents/>
 			</div>
 			<ul>
 				<li>
@@ -79,7 +82,7 @@ function App() {
 					<div className="productBrand">Бренд</div>
 					<div className="productId">Id</div>
 				</li>
-				{result.status === "loading" && <div>Loading...</div>}
+				{result.status === "loading" && <h2>Loading...</h2>}
 				{result.status === "succeeded" && <ItemsList  />}
 			</ul>
 		</div>

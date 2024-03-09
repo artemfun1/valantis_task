@@ -17,7 +17,7 @@ type OffsetProps = {
 export const fetchItems = createAsyncThunk(
 	"todos/fetchTodos",
 	async (obj: OffsetProps) => {
-		const numGetItems = 200;
+		const numGetItems = 99;
 
 		const offset = getOffset(obj);
 		const responseId:string[] = await getItemsId(offset, numGetItems);

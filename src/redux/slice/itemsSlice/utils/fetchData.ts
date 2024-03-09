@@ -16,6 +16,7 @@ export function getOffset(obj: {
 }
 
 export async function getItemsId(offset: number, numGetItems: number) {
+	console.log()
 	const responseId = await axios({
 		method: "POST",
 		url: "http://api.valantis.store:40000/",

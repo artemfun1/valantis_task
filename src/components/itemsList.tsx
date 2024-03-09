@@ -3,7 +3,7 @@ import { useAppSelector } from "../redux/store/useReduxHooks";
 export const ItemsList = () => {
 	const result = useAppSelector(state => state.items);
 
-  console.log(result.items.length)
+  // console.log(result.currentItemsPage)
   
 
 
