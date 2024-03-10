@@ -1,54 +1,25 @@
-import clsx from "clsx";
-import { useEffect, useRef } from "react";
-import "./App.css";
-import { ItemsList } from "./components/itemsList";
-import { PaginationComponents } from "./components/pagination";
-import { useToggleDisable } from "./hooks/useToggleDisable";
-import { fetchItems } from "./redux/slice/itemsSlice/fetchItems";
-import {
-	setCurrentPageNext,
-	setCurrentPagePrev,
-} from "./redux/slice/paginationSlice/paginationSlice";
-import { useAppDispatch, useAppSelector } from "./redux/store/useReduxHooks";
-import { setOffset } from './redux/slice/itemsSlice/itemsSlice'
+import clsx from "clsx"
+import { useEffect, useRef } from "react"
+import "./App.css"
+import { ItemsList } from "./components/ItemsList"
+
+import { useToggleDisable } from "./hooks/useToggleDisable"
+import { fetchItems } from "./redux/slice/itemsSlice/fetchItems"
+import { useAppDispatch, useAppSelector } from "./redux/store/useReduxHooks"
+import { PaginationComponents } from './components/Pagination'
 
 function App() {
 	const dispatch = useAppDispatch();
 	const result = useAppSelector(state => state.items);
 	const offset = useAppSelector(state => state.items.offset);
-	const paginationState = useAppSelector(state => state.pagination);
 
 	useEffect(() => {
-		dispatch(
-			fetchItems(offset)
-		);
-	}, [dispatch, offset]);
+		dispatch(fetchItems(0));
+	}, [dispatch]);
 
 	if (result.status === "failed") {
-		dispatch(
-			fetchItems(offset)
-
-		);
-	}
-	function handleClickPrevPage() {
-		dispatch(setCurrentPagePrev(1));
-	}
-
-	function handleClickNextPage() {
-		dispatch(setCurrentPageNext(1));
-		
-		if (
-			paginationState.currentPage ===
-			paginationState.pageNumbers[paginationState.pageNumbers.length - 2]
-		) {
-			dispatch(
-				fetchItems(200)
-			);
-			dispatch(
-				setOffset(offset+200)
-			);
-
-		}
+		console.log('result.status === "failed"');
+		dispatch(fetchItems(offset));
 	}
 
 	const paginationDivRef = useRef<HTMLDivElement>(null);
@@ -56,22 +27,29 @@ function App() {
 	useToggleDisable({ paginationDivRef });
 
 	return (
-		<div>
-			<button> Название </button>
-			<button> Цена </button>
-			<button> Бренд </button> <br />
+		<div className="main">
+			<div>
+				
+		
+				<button> Название </button>
+				<button> Цена </button>
+				<button> Бренд </button> <br />
+
+
+			</div>
+
 			<div
 				ref={paginationDivRef}
-				className={clsx('paginationBlock',result.status === "loading" ? "disabledDiv" : "")}
+				className={clsx(
+					"paginationBlock",
+					result.status === "loading" ? "disabledDiv" : ""
+				)}
 			>
-				<button onClick={handleClickPrevPage}>Prev Page</button>
-<PaginationComponents />...
-				<button onClick={handleClickNextPage}>Next Page</button>
-
-				
+				<PaginationComponents />
 			</div>
 			<ul>
 				<li>
+					<div className="productNumber">№</div>
 					<div className="productTitle">Название</div>
 					<div className="productPrice">Цена</div>
 					<div className="productBrand">Бренд</div>

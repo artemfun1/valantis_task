@@ -7,6 +7,7 @@ export type Items = {
 	id: string;
 	price: number;
 	product: string;
+	number:number
 }[];
 
 export type StateItems = {
@@ -37,14 +38,24 @@ export const itemsSlice = createSlice({
 			})
 
 			.addCase(fetchItems.fulfilled, (state, action) => {
-				state.status = "succeeded";
 				const filterState = getUniqueItems([...state.items, ...action.payload]);
-				state.items = [...filterState];
+
+				const addNumberPerItemsArr:Items = filterState.map((item,i)=>({brand: item.brand,
+					id: item.id,
+					price: item.price,
+					product: item.product,
+					number: i+1})
+					
+			)
+
+			
+
+				state.items = [...addNumberPerItemsArr];
+				state.status = "succeeded";
 			})
 			.addCase(fetchItems.rejected, (state, action) => {
-				state.status = "failed";
-				state.items = [];
 				console.log(action.error);
+				state.status = "failed";
 			});
 	},
 });

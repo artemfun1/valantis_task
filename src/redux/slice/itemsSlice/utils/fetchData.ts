@@ -2,10 +2,7 @@ import axios from "axios";
 import { md5 } from "js-md5";
 import { getDate } from "../../../../utils/getDate";
 
-
-
 export async function getItemsId(offset: number, numGetItems: number) {
-	console.log()
 	const responseId = await axios({
 		method: "POST",
 		url: "http://api.valantis.store:40000/",
@@ -37,4 +34,3 @@ export async function getItems(responseId: string[]) {
 	});
 	return responseItem.data.result;
 }
-

@@ -8,9 +8,9 @@ export const fetchItems = createAsyncThunk(
 		const numGetItems = 200;
 
 		const responseId: string[] = await getItemsId(offset, numGetItems);
-		const responseItems: Items = await getItems(responseId);
-		
 
-		return  responseItems;
+		const responseItems: Items = await getItems(responseId);
+
+		return responseItems;
 	}
 );
