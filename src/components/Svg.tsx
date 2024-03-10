@@ -1,6 +1,18 @@
+import { fetchItems } from '../redux/slice/itemsSlice/fetchItems'
+import { useAppDispatch } from '../redux/store/useReduxHooks'
+
 export const Svg = () => {
+const dispatch = useAppDispatch()
+function handleClick(){
+	dispatch(
+		fetchItems({ action: "get_ids", params: { offset: 0, limit: 99 } })
+	);
+}
+
+
 	return (
-		<svg
+		<svg onClick={handleClick}
+		className='cursorPointer'
 			width="144"
 			height="34"
 			viewBox="0 0 144 34"

@@ -9,7 +9,7 @@ export const getDate = () => {
 	if (day.length === 1) {
 		day = "0" + day;
 	}
-
+	`${year}${month}${day}`
 	// return `${year}${month}${day}`;
 	return "20240310";
 };
