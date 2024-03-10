@@ -1,7 +1,8 @@
 import clsx from "clsx";
 import { useEffect, useRef } from "react";
+import { useToggleDisable } from "../hooks/useToggleDisable";
 import { fetchItems } from "../redux/slice/itemsSlice/fetchItems";
-import { setOffset } from "../redux/slice/itemsSlice/itemsSlice";
+import { FetchDataType, setOffset } from "../redux/slice/itemsSlice/itemsSlice";
 import {
 	setActualPageNumbers,
 	setCurrentPage,
@@ -17,7 +18,8 @@ export const PaginationComponents = () => {
 	const dispatch = useAppDispatch();
 	const paginationState = useAppSelector(state => state.pagination);
 	const totalItems = useAppSelector(state => state.items.items);
-	const offset = useAppSelector(state => state.items.offset);
+	const offset = useAppSelector(state => state.items.fetchData.params.offset);
+	const fetchData = useAppSelector(state => state.items.fetchData);
 	const itemsPerPage = useAppSelector(
 		state => state.pagination.elementsPerPages
 	);
@@ -27,11 +29,15 @@ export const PaginationComponents = () => {
 	const intervalMax = useAppSelector(
 		state => state.pagination.intervals.intervalMax
 	);
+	const result = useAppSelector(state => state.items);
 
 	const lastIndex =
 		paginationState.currentPage * paginationState.elementsPerPages;
 	const firstIndex = lastIndex - paginationState.elementsPerPages;
 	const divRefPagination = useRef<HTMLDivElement>(null);
+	const paginationDivRef = useRef<HTMLDivElement>(null);
+
+	useToggleDisable({ paginationDivRef });
 
 	useEffect(() => {
 		const finalItems = totalItems.slice(firstIndex, lastIndex);
@@ -55,6 +61,8 @@ export const PaginationComponents = () => {
 		// const intervalMax = +(tens + "0") + 10;
 
 		// dispatch(setIntervals({ intervalMin, intervalMax }));
+		// console.log(pageNumbers.length)
+		// console.log(fetchData)
 
 		if (
 			paginationState.currentPage.toString()[
@@ -64,11 +72,8 @@ export const PaginationComponents = () => {
 			const currentPageIntervalNum = Math.floor(
 				paginationState.currentPage / 10
 			); //1
-
 			const intervalMinCurrentPage = +(currentPageIntervalNum + "0"); //10
-
 			const intervalMaxCurrentPage = +(currentPageIntervalNum + "0") + 10; //10
-
 			const arrCurrentPageNumbers = pageNumbers.slice(
 				intervalMinCurrentPage,
 				intervalMaxCurrentPage
@@ -84,17 +89,28 @@ export const PaginationComponents = () => {
 
 		if (
 			pageNumber ===
-			paginationState.pageNumbers[paginationState.pageNumbers.length - 1]
+				paginationState.pageNumbers[paginationState.pageNumbers.length - 1] &&
+			fetchData.action !== "filter"
 		) {
-			dispatch(setOffset(offset + 200));
-			dispatch(fetchItems(offset + 200));
+			if (typeof offset === "number") {
+				dispatch(setOffset(offset! + paginationState.elementsPerPages));
+
+				const newFetchData: FetchDataType = {
+					action: fetchData.action,
+					params: {
+						...fetchData.params,
+						offset: fetchData.params.offset! + paginationState.elementsPerPages,
+					},
+				};
+
+				dispatch(fetchItems(newFetchData));
+			}
 		}
 	}
 
 	function handleClickNext() {
 		const min = intervalMin + 10;
 		const max = intervalMax + 10;
-
 		const arr = paginationState.pageNumbers.slice(min, max);
 		dispatch(
 			setIntervals({
@@ -109,7 +125,6 @@ export const PaginationComponents = () => {
 	function handleClickPrev() {
 		const min = intervalMin - 10;
 		const max = intervalMax - 10;
-
 		const arr = paginationState.pageNumbers.slice(min, max);
 
 		dispatch(
@@ -123,21 +138,41 @@ export const PaginationComponents = () => {
 	}
 
 	function handleClickNextPage() {
-		dispatch(setCurrentPageNext(1));
-
 		if (
-			paginationState.currentPage ===
-			paginationState.pageNumbers[paginationState.pageNumbers.length - 2]
+			!(
+				paginationState.currentPage ===
+				paginationState.pageNumbers[paginationState.pageNumbers.length - 1]
+			)
 		) {
-			dispatch(setOffset(offset + 200));
-			dispatch(fetchItems(offset + 200));
+			dispatch(setCurrentPageNext(1));
 		}
 
 		if (
 			paginationState.currentPage ===
-			paginationState.actualPageNumbers[
-				paginationState.actualPageNumbers.length - 1
-			]
+				paginationState.pageNumbers[paginationState.pageNumbers.length - 2] &&
+			fetchData.action !== "filter"
+		) {
+			if (typeof offset === "number") {
+				dispatch(setOffset(offset! + paginationState.elementsPerPages));
+
+				const newFetchData: FetchDataType = {
+					action: fetchData.action,
+					params: {
+						...fetchData.params,
+						offset: fetchData.params.offset! + paginationState.elementsPerPages,
+					},
+				};
+
+				dispatch(fetchItems(newFetchData));
+			}
+		}
+
+		if (
+			paginationState.currentPage ===
+				paginationState.actualPageNumbers[
+					paginationState.actualPageNumbers.length - 1
+				] &&
+			fetchData.action !== "filter"
 		) {
 			const min = intervalMin + 10;
 			const max = intervalMax + 10;
@@ -178,7 +213,13 @@ export const PaginationComponents = () => {
 	}
 
 	return (
-		<>
+		<div
+			ref={paginationDivRef}
+			className={clsx(
+				"paginationBlock",
+				result.status === "loading" ? "disabledDiv" : ""
+			)}
+		>
 			<button onClick={handleClickPrevPage}>Prev Page</button>
 
 			<button
@@ -225,6 +266,6 @@ export const PaginationComponents = () => {
 			</button>
 
 			<button onClick={handleClickNextPage}>Next Page</button>
-		</>
+		</div>
 	);
 };

@@ -29,7 +29,7 @@ ul {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 70px;
+	width: 80px;
 	border: 1px solid black;
 }
 .productBrand {
@@ -92,4 +92,38 @@ ul {
 	opacity: 0;
 	pointer-events: none;
 	user-select: none;
+}
+.filterComp {
+	margin-top: 5px;
+	width: 705px;
+	display: flex;
+	justify-content: space-between;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+}
+.adminka {
+	border: 1px solid red;
+	margin: 15px;
+	padding: 15px;
+	width: 705px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	justify-content: space-between;
+}
+.btnAdmin {
+	margin-bottom: 10px;
+}
+.lol {
+	text-decoration: line-through;
+	line-height: 20px !important;
+}
+button {
+	cursor: pointer;
+}
+.cursorPointer {
+	cursor: pointer;
 }

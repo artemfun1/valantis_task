@@ -1,4 +1,4 @@
-import { Items } from '../redux/slice/itemsSlice/itemsSlice'
+import { Items } from "../redux/slice/itemsSlice/itemsSlice";
 
 export function getUniqueItems(responseItems: Items) {
 	const map = new Map();

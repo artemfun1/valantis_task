@@ -1,8 +1,9 @@
 import axios from "axios";
 import { md5 } from "js-md5";
 import { getDate } from "../../../../utils/getDate";
+import { FetchDataType } from "../itemsSlice";
 
-export async function getItemsId(offset: number, numGetItems: number) {
+export async function getItemsId(fetchData: FetchDataType) {
 	const responseId = await axios({
 		method: "POST",
 		url: "http://api.valantis.store:40000/",
@@ -11,11 +12,10 @@ export async function getItemsId(offset: number, numGetItems: number) {
 			"X-Auth": md5(`Valantis_${getDate()}`),
 		},
 		data: JSON.stringify({
-			action: "get_ids",
-			params: { offset: offset, limit: numGetItems },
+			action: fetchData.action,
+			params: { ...fetchData.params },
 		}),
 	});
-
 	return responseId.data.result;
 }
 

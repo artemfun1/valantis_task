@@ -10,5 +10,6 @@ export const getDate = () => {
 		day = "0" + day;
 	}
 
-	return `${year}${month}${day}`;
+	// return `${year}${month}${day}`;
+	return "20240310";
 };
