@@ -3,6 +3,6 @@ import react from "@vitejs/plugin-react";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	base: "/valantis_task",
 	plugins: [react()],
+	base: "/valantis_task/",
 });
