@@ -6,7 +6,7 @@ import { FetchDataType } from "../itemsSlice";
 export async function getItemsId(fetchData: FetchDataType) {
 	const responseId = await axios({
 		method: "POST",
-		url: "http://api.valantis.store:40000/",
+		url: "https://api.valantis.store:41000/",
 		headers: {
 			"Content-Type": "application/json;charset=utf-8",
 			"X-Auth": md5(`Valantis_${getDate()}`),
@@ -22,7 +22,7 @@ export async function getItemsId(fetchData: FetchDataType) {
 export async function getItems(responseId: string[]) {
 	const responseItem = await axios({
 		method: "POST",
-		url: "http://api.valantis.store:40000/",
+		url: "https://api.valantis.store:41000/",
 		headers: {
 			"Content-Type": "application/json;charset=utf-8",
 			"X-Auth": md5(`Valantis_${getDate()}`),
