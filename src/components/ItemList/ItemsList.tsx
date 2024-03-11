@@ -28,7 +28,7 @@ export const ItemsList = () => {
 			{result.status === "loading" && (
 				<div className="center">
 					<div className="ring"></div>
-					<span>Loading...</span>
+					<span>Loading</span>
 				</div>
 			)}
 
