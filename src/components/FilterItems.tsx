@@ -132,7 +132,7 @@ export const FilterItems = () => {
 					placeholder="По точному бренду"
 					value={brand}
 				/>{" "}
-				<button onClick={e => handlerClickBrand(e)}> Найти </button>
+				<button onClick={e => handlerClickBrand(e)}> Найтиb </button>
 			</form>
 		</div>
 	);

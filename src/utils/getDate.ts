@@ -10,6 +10,7 @@ export const getDate = () => {
 		day = "0" + day;
 	}
 
+	
 	return `${year}${month}${day}`;
 	
 };

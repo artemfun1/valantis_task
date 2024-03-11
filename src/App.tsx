@@ -25,6 +25,7 @@ function App() {
 
 	return (
 		<div className="main">
+		
 			<Adminka />
 			<FilterItems />
 			<PaginationComponents />
