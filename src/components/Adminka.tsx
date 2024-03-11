@@ -67,7 +67,7 @@ export const Adminka = () => {
 	return (
 		<>
 			<button className="btnAdmin" onClick={() => setHidden(!hidden)}>
-				Открыть/закрыть Админкуу
+				Открыть/закрыть Админку
 			</button>
 
 			<Svg />
